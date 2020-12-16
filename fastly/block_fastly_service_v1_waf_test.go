@@ -257,11 +257,19 @@ resource "fastly_service_v1" "foo" {
 	statement = "req.url~+\"index.html\""
   }
 
+  condition {
+	name      = "false"
+	priority  = 10
+	statement = "!req.url"
+	type      = "REQUEST"
+  }
+
   response_object {
 	name = "response"
 	status = "403"
 	response = "Forbidden"
 	content = "content"
+        request_condition = "false"
   }
 
   %s
